@@ -1,0 +1,3 @@
+C:\Users\g1627005\Dropbox\プログラム分野共有フォルダ\ゲーム制作\プログラム系\Project_X's\Project_X's\Project_X'sContent\obj\x86\Debug\Project_X'sContent.contentprojResolveAssemblyReference.cache
+C:\Users\IF\Dropbox\プログラム分野\ゲーム制作\プログラム系\Project_X's\Project_X's\Project_X'sContent\obj\x86\Debug\Project_X'sContent.contentprojResolveAssemblyReference.cache
+C:\Users\kkk3haha\Dropbox\プログラム分野共有フォルダ\ゲーム制作\プログラム系\Project_X's\Project_X's\Project_X'sContent\obj\x86\Debug\Project_X'sContent.contentprojResolveAssemblyReference.cache

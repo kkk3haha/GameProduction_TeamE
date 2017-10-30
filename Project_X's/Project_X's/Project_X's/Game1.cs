@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace X_s_Addon
+namespace Project_X_s
 {
     /// <summary>
     /// 基底 Game クラスから派生した、ゲームのメイン クラスです。
@@ -19,12 +19,27 @@ namespace X_s_Addon
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-       
+        MenuComponent menuCompo;
+        PlayComponent playCompo;
+
+        //private GraphicsDeviceManager graphicsDeviceManager;
+
+        enum GameMode
+        {
+            Menu,
+            Play
+        }
+
+        GameMode mode;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferWidth = 1980;
+            graphics.PreferredBackBufferHeight = 1020;
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -36,6 +51,15 @@ namespace X_s_Addon
         protected override void Initialize()
         {
             // TODO: ここに初期化ロジックを追加します。
+
+            
+
+            menuCompo = new MenuComponent(this);
+            playCompo = new PlayComponent(this);
+            if (!Components.Contains(menuCompo))
+            {
+                Components.Add(menuCompo);
+            }
 
             base.Initialize();
         }
@@ -50,17 +74,7 @@ namespace X_s_Addon
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: this.Content クラスを使用して、ゲームのコンテンツを読み込みます。
-
-            
         }
-        private void Openig()
-        {
-            Texture2D TitleLogo_Img;
-            Vector2 TitleLogo_Position;
-            TitleLogo_Img = Content.Load<Texture2D>("X's Addon2");
-            TitleLogo_Position = Vector2.Zero;
-        }
-
 
         /// <summary>
         /// UnloadContent はゲームごとに 1 回呼び出され、ここですべてのコンテンツを
@@ -81,9 +95,40 @@ namespace X_s_Addon
             // ゲームの終了条件をチェックします。
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape)==true)
+                this.Exit();
 
             // TODO: ここにゲームのアップデート ロジックを追加します。
-            
+
+            switch(mode)
+            {
+                case GameMode.Menu:
+                    
+                    //メニューが選択された場合
+                    if(menuCompo.IsSelected())
+                    {
+                        switch(menuCompo.selectedMenu)
+                        {
+                            case MenuComponent.Menu.Start:
+                                Components.Remove(menuCompo);
+                                Components.Add(playCompo);
+
+                                mode = GameMode.Play;
+                                break;
+
+                            case MenuComponent.Menu.Exit:
+                                Exit(); //アプリ終了
+                                break;
+                        }
+                    }
+                    break;
+
+                case GameMode.Play:
+                    //ゲーム中の処理を追加
+                    if (PlayerInput.StartButton(PlayerIndex.One))
+                    { }
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -98,13 +143,8 @@ namespace X_s_Addon
 
             // TODO: ここに描画コードを追加します。
             
-            spriteBatch.Begin();
-            //spriteBatch.Draw(TitleLogo_Img,TitleLogo_Position,Color.White);
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }
     }
 }
-
-
